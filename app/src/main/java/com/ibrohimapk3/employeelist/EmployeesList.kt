@@ -1,5 +1,4 @@
 package com.ibrohimapk3.employeelist
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,9 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Composable
-fun TopBar() {
+private fun TopBar() {
     var searchText by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -82,12 +80,7 @@ fun TopBar() {
 }
 
 var empl: List<Employee> = listOf(
-    Employee(1, "sad", "ad", "s", "", 233),
-    Employee(1, "sad", "ad", "s", "", 233),
-    Employee(1, "sad", "ad", "s", "", 233),
-    Employee(1, "sad", "ad", "s", "", 233),
-    Employee(1, "sakhkd", "ad", "s", "", 233),
-    Employee(1, "sad", "ad", "s", "", 233),
+    Employee("id", "ib", "us", ".com", "92779", "it", "and", "i")
 )
 
 @Composable
@@ -98,8 +91,8 @@ fun ListOfEmployee() {
                 modifier = Modifier
                     .padding(horizontal = 7.dp)
                     .fillMaxWidth()
-                    .padding(horizontal = 7.dp , vertical = 10.dp)
-                    .shadow(10.dp , RoundedCornerShape(8.dp))
+                    .padding(horizontal = 7.dp, vertical = 10.dp)
+                    .shadow(10.dp, RoundedCornerShape(8.dp))
                     .background(Color(0xFFFFFFFF)),
             ) {
                 Box(modifier = Modifier.size(120.dp), contentAlignment = Alignment.Center) {
@@ -121,14 +114,13 @@ fun ListOfEmployee() {
                     Text(
                         fontSize = 22.sp,
                         color = Color.Black,
-                        text = it.name,
+                        text = it.firstName,
                         fontWeight = FontWeight.Bold
                     )
-
                     Text(
                         fontSize = 20.sp,
                         color = Color.Blue,
-                        text = it.job,
+                        text = it.position,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                     Text(fontSize = 19.sp, color = Color.Blue, text = it.department)
