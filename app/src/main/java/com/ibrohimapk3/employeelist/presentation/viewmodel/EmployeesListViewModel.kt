@@ -1,5 +1,6 @@
 package com.ibrohimapk3.employeelist.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibrohimapk3.employeelist.data.EmployeeRepositoryImpl

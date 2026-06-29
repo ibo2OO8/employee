@@ -6,8 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ibrohimapk3.employeelist.data.local.dao.EmployeeDao
 import com.ibrohimapk3.employeelist.data.local.entity.EmployeeEntity
-
-
 @Database(entities = [EmployeeEntity::class], version = 1)
 abstract class MainDb : RoomDatabase() {
     abstract fun getDao(): EmployeeDao

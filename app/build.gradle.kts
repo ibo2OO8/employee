@@ -37,6 +37,10 @@ android {
     }
 }
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    implementation("io.insert-koin:koin-android:3.5.0")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
 
     val room_version = "2.8.4"
     implementation("androidx.room:room-runtime:$room_version")

@@ -1,5 +1,6 @@
 package com.ibrohimapk3.employeelist.data
 
+import android.util.Log
 import com.ibrohimapk3.employeelist.data.local.dao.EmployeeDao
 import com.ibrohimapk3.employeelist.data.mapper.toEmployee
 import com.ibrohimapk3.employeelist.data.mapper.toEmployeeEntity
@@ -22,15 +23,14 @@ class EmployeeRepositoryImpl(
     override fun getEmployees(): Flow<List<EmployeeDomain>> {
         return dao.getAllItem()
             .onStart {
-
                 val localData = dao.getAllItem().first()
-
                 if (localData.isEmpty()) {
                     val remote = api.getEmployee()
 
                     dao.insertItems(
                         remote.results.map { it.toEmployeeEntity() }
                     )
+                    Log.d("logInDao" , remote.results[0].toString())
                 }
             }
             .map { list ->
