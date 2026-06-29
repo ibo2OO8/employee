@@ -1,9 +1,10 @@
-package com.ibrohimapk3.employeelist.Presentation.Screens
+package com.ibrohimapk3.employeelist.presentation.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,9 +33,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ibrohimapk3.employeelist.Presentation.Employee
+import com.ibrohimapk3.employeelist.presentation.Employee
 import com.ibrohimapk3.employeelist.R
+import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 
+@Composable
+fun EmployeeList(){
+    var viewModel: EmployeesListViewModel = viewModel()
+    val employees by viewModel.listOfEmployee.collectAsState()
+    TopBar()
+    ListOfEmployee(employees)
+}
 @Composable
 private fun TopBar() {
     var searchText by remember { mutableStateOf("") }
@@ -48,7 +58,6 @@ private fun TopBar() {
             )
             .background(Color(0xFF70B4EC))
             .padding(10.dp)
-
     ) {
         Text(
             modifier = Modifier.padding(top = 30.dp, bottom = 20.dp, start = 20.dp, end = 20.dp),
@@ -81,14 +90,10 @@ private fun TopBar() {
     }
 }
 
-var empl: List<Employee> = listOf(
-    Employee("id", "ib", "us", ".com", "92779", "it", "and", "i")
-)
-
 @Composable
-fun ListOfEmployee() {
+fun ListOfEmployee(listOfEmployee : List<Employee>) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(empl) {
+        items(listOfEmployee) {
             Row(
                 modifier = Modifier
                     .padding(horizontal = 7.dp)

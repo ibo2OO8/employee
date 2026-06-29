@@ -1,6 +1,6 @@
-package com.ibrohimapk3.employeelist.Domain
+package com.ibrohimapk3.employeelist.domain.entety
 
-data class Employee(
+data class EmployeeDomain(
     val id: String,
     val firstName : String,
     val lastName: String,
