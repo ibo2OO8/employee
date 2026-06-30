@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface EmployeeRepository {
     fun refresh()
     fun getEmployees(): Flow<List<EmployeeDomain>>
-    suspend fun getAboutEmployee(): EmployeeDomain
+    suspend fun getAboutEmployeeById(): EmployeeDomain
 
 }

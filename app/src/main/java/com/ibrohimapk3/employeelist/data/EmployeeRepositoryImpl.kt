@@ -32,13 +32,14 @@ class EmployeeRepositoryImpl(
                     )
                     Log.d("logInDao" , remote.results[0].toString())
                 }
+
             }
             .map { list ->
                 list.map { it.toEmployee() }
             }
     }
 
-    override suspend fun getAboutEmployee(): EmployeeDomain {
+    override suspend fun getAboutEmployeeById(): EmployeeDomain {
         TODO("Not yet implemented")
     }
 }

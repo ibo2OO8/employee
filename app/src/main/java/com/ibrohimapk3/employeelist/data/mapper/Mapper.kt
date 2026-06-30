@@ -23,9 +23,8 @@ fun EmployeesDto.toEmployeeEntity(): EmployeeEntity {
         phone = phone,
         department = departmentL.random(),
         position = positionL.random(),
-        image = picture.medium
+        image = picture.large
     )
 }
-
 var departmentL = listOf("IT", "Finance", "Sales", "Hr")
 var positionL = listOf("Manager", "Backend", "Frontend", "android developer")

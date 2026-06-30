@@ -1,5 +1,4 @@
 package com.ibrohimapk3.employeelist.presentation.screens
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,18 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ibrohimapk3.employeelist.R
-
 @Composable
 private fun TopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF70B4EC))
-            .padding(10.dp)
+            .padding(top = 20.dp, start = 10.dp, end = 10.dp, bottom = 10.dp)
 
     ) {
         IconButton(
-            onClick = {}, modifier = Modifier
+            onClick = {},
+            modifier = Modifier
                 .padding(top = 30.dp, start = 7.dp)
                 .size(40.dp)
                 .background(Color.Blue)
@@ -42,25 +41,30 @@ private fun TopBar() {
         )
     }
 }
-
 @Composable
-fun AboutEmployee(name: String, job: String, department: String, email: String, number: Int) {
-    Column(
-        modifier = Modifier
-            .padding(15.dp)
-            .fillMaxWidth()
-    ) {
-        Image(
-            painterResource(R.drawable.ic_launcher_background), contentDescription = "img",
+fun AboutEmployee(
+    img: String, name: String, job: String, department: String, email: String, number: Int
+) {
+    Column {
+        TopBar()
+        Column(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .size(120.dp)
-        )
-        Text(text = name, fontSize = 35.sp, fontWeight = FontWeight.Bold)
+                .padding(15.dp)
+                .fillMaxWidth()
+        ) {
+            Image(
+                painterResource(R.drawable.ic_launcher_background),
+                contentDescription = "img",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(120.dp)
+            )
+            Text(text = name, fontSize = 35.sp, fontWeight = FontWeight.Bold)
 
-        Text(text = "Должность:$job", fontSize = 22.sp)
-        Text(text = "Отдел:$department", fontSize = 22.sp)
-        Text(text = "Email:$email", fontSize = 22.sp)
-        Text(text = "Телефон:$number", fontSize = 22.sp)
+            Text(text = "Должность:$job", fontSize = 22.sp)
+            Text(text = "Отдел:$department", fontSize = 22.sp)
+            Text(text = "Email:$email", fontSize = 22.sp)
+            Text(text = "Телефон:$number", fontSize = 22.sp)
+        }
     }
 }

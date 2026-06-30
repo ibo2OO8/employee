@@ -7,7 +7,7 @@ import com.ibrohimapk3.employeelist.data.EmployeeRepositoryImpl
 import com.ibrohimapk3.employeelist.data.local.dao.EmployeeDao
 import com.ibrohimapk3.employeelist.data.remote.RetrofitInstance
 import com.ibrohimapk3.employeelist.domain.usecase.GetEmployeeUseCase
-import com.ibrohimapk3.employeelist.presentation.Employee
+import com.ibrohimapk3.employeelist.presentation.model.Employee
 import com.ibrohimapk3.employeelist.presentation.mapper.toEmployee
 
 import kotlinx.coroutines.flow.MutableStateFlow

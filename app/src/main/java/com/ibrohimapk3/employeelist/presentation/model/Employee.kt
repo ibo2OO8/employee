@@ -1,4 +1,4 @@
-package com.ibrohimapk3.employeelist.presentation
+package com.ibrohimapk3.employeelist.presentation.model
 
 data class Employee(
     val id: String,

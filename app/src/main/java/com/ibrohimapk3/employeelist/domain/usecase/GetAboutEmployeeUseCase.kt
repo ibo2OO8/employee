@@ -7,6 +7,6 @@ class GetAboutEmployeeUseCase(
     private val employeeRepository: EmployeeRepository
 ) {
      suspend operator fun invoke(): EmployeeDomain {
-        return employeeRepository.getAboutEmployee()
+        return employeeRepository.getAboutEmployeeById()
     }
 }
