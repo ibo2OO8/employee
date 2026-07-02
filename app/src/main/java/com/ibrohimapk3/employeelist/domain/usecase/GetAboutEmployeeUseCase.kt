@@ -6,7 +6,7 @@ import com.ibrohimapk3.employeelist.domain.repository.EmployeeRepository
 class GetAboutEmployeeUseCase(
     private val employeeRepository: EmployeeRepository
 ) {
-     suspend operator fun invoke(): EmployeeDomain {
-        return employeeRepository.getAboutEmployeeById()
+    suspend operator fun invoke(id: String): EmployeeDomain {
+        return employeeRepository.getAboutEmployeeById(id)
     }
 }

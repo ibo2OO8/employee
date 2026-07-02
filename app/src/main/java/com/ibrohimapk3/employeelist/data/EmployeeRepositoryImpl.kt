@@ -1,6 +1,6 @@
 package com.ibrohimapk3.employeelist.data
-
 import android.util.Log
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ibrohimapk3.employeelist.data.local.dao.EmployeeDao
 import com.ibrohimapk3.employeelist.data.mapper.toEmployee
 import com.ibrohimapk3.employeelist.data.mapper.toEmployeeEntity
@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.toCollection
 
 class EmployeeRepositoryImpl(
     private val dao: EmployeeDao,
@@ -30,7 +31,7 @@ class EmployeeRepositoryImpl(
                     dao.insertItems(
                         remote.results.map { it.toEmployeeEntity() }
                     )
-                    Log.d("logInDao" , remote.results[0].toString())
+                    Log.d("logInDao", remote.results[0].toString())
                 }
 
             }
@@ -39,8 +40,8 @@ class EmployeeRepositoryImpl(
             }
     }
 
-    override suspend fun getAboutEmployeeById(): EmployeeDomain {
-        TODO("Not yet implemented")
+    override suspend fun getAboutEmployeeById(id: String): EmployeeDomain {
+        return dao.getEmployeeById(id).first().toEmployee()
     }
 }
 

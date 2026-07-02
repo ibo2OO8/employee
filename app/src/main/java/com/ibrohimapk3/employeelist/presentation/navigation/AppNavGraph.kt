@@ -1,12 +1,10 @@
 package com.ibrohimapk3.employeelist.presentation.navigation
-
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ibrohimapk3.employeelist.presentation.screens.AboutEmployee
 import com.ibrohimapk3.employeelist.presentation.screens.EmployeeList
-
 @Composable
 fun AppNavGraph(
     navController: NavHostController
@@ -17,13 +15,21 @@ fun AppNavGraph(
     ) {
         composable("employeeList") {
             EmployeeList(
-                onEmployeeListToAboutEmployee = {
-                    navController.navigate("aboutEmployee")
+                onEmployeeListToAboutEmployee = { id ->
+                    navController.navigate("aboutEmployee/$id")
                 }
             )
+
         }
-        composable("aboutEmployee"){
-            AboutEmployee("daa","sdf" , "fs" , "dssa" , "daasd" , 222)
+        composable(
+            route = "aboutEmployee/{employeeId}"
+        ) { backStackEntry ->
+
+            val employeeId =
+                backStackEntry.arguments?.getString("employeeId")
+            AboutEmployee(
+                id = employeeId!!
+            )
         }
     }
 }

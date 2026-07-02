@@ -1,5 +1,4 @@
 package com.ibrohimapk3.employeelist.presentation.screens
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,18 +35,16 @@ import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.presentation.model.Employee
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import org.koin.androidx.compose.getViewModel
-
 @Composable
-fun EmployeeList(onEmployeeListToAboutEmployee: () -> Unit) {
+fun EmployeeList(onEmployeeListToAboutEmployee: (String) -> Unit) {
     val viewModel: EmployeesListViewModel = getViewModel()
     val employees by viewModel.listOfEmployee.collectAsState()
     ListOfEmployee(employees, onEmployeeListToAboutEmployee)
 }
-
 @Composable
 private fun ListOfEmployee(
     listOfEmployee: List<Employee>,
-    onEmployeeListToAboutEmployee: () -> Unit
+    onEmployeeListToAboutEmployee: (String) -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
 
@@ -113,7 +110,7 @@ private fun ListOfEmployee(
                         .shadow(10.dp, RoundedCornerShape(8.dp))
                         .background(Color(0xFFFFFFFF))
                         .clickable {
-                            onEmployeeListToAboutEmployee()
+                            onEmployeeListToAboutEmployee(it.id)
                         },
                 ) {
                     Box(modifier = Modifier.size(120.dp), contentAlignment = Alignment.Center) {

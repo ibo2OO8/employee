@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.onEach
 class GetEmployeeUseCase(
     private val employeeRepository: EmployeeRepository
 ) {
-     operator fun invoke(): Flow<List<EmployeeDomain>> {
-         return employeeRepository.getEmployees()
-             .onEach { list ->
-                 Log.d("logInDao3" , list.toString())
-             }
+    operator fun invoke(): Flow<List<EmployeeDomain>> {
+        return employeeRepository.getEmployees()
     }
 }

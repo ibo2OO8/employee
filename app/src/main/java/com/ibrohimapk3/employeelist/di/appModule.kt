@@ -8,6 +8,7 @@ import com.ibrohimapk3.employeelist.domain.repository.EmployeeRepository
 import com.ibrohimapk3.employeelist.domain.usecase.GetAboutEmployeeUseCase
 import com.ibrohimapk3.employeelist.domain.usecase.GetEmployeeUseCase
 import com.ibrohimapk3.employeelist.domain.usecase.RefreshUseCase
+import com.ibrohimapk3.employeelist.presentation.viewmodel.AboutEmployeeViewModel
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -38,5 +39,8 @@ var appModule = module {
     }
     viewModel {
         EmployeesListViewModel(get())
+    }
+    viewModel {
+        AboutEmployeeViewModel(get())
     }
 }
