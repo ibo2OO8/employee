@@ -1,5 +1,4 @@
 package com.ibrohimapk3.employeelist.presentation.screens
-
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,14 +25,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.R
 import com.ibrohimapk3.employeelist.presentation.viewmodel.AboutEmployeeViewModel
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import org.koin.androidx.compose.getViewModel
-
 @Composable
-private fun TopBar() {
+private fun TopBar(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,7 +41,9 @@ private fun TopBar() {
             .padding(top = 20.dp, start = 10.dp, end = 10.dp, bottom = 10.dp)
     ) {
         IconButton(
-            onClick = {},
+            onClick = {
+                navController.popBackStack()
+            },
             modifier = Modifier
                 .padding(top = 30.dp, start = 7.dp)
                 .size(40.dp)
@@ -65,6 +67,7 @@ private fun TopBar() {
 
 @Composable
 fun AboutEmployee(
+    navController : NavHostController,
     id: String
 ) {
     val viewModel: AboutEmployeeViewModel = getViewModel()
@@ -75,7 +78,7 @@ fun AboutEmployee(
     }
 
     Column {
-        TopBar()
+        TopBar(navController)
         Column(
             modifier = Modifier
                 .padding(15.dp)
@@ -94,7 +97,6 @@ fun AboutEmployee(
             Text(text = "Отдел:${employee.department}", fontSize = 22.sp)
             Text(text = "Email:${employee.email}", fontSize = 22.sp)
             Text(text = "Телефон:${employee.phone}", fontSize = 22.sp)
-
         }
     }
 }

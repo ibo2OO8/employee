@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ibrohimapk3.employeelist.presentation.screens.AboutEmployee
 import com.ibrohimapk3.employeelist.presentation.screens.EmployeeList
+
 @Composable
 fun AppNavGraph(
     navController: NavHostController
@@ -27,9 +28,12 @@ fun AppNavGraph(
 
             val employeeId =
                 backStackEntry.arguments?.getString("employeeId")
-            AboutEmployee(
-                id = employeeId!!
-            )
+            employeeId?.let {
+                AboutEmployee(
+                    id = it,
+                    navController = navController
+                )
+            }
         }
     }
 }
