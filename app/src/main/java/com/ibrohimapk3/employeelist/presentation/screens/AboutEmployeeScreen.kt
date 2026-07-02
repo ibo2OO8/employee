@@ -45,6 +45,7 @@ private fun TopBar() {
             modifier = Modifier
                 .padding(top = 30.dp, start = 7.dp)
                 .size(40.dp)
+
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
