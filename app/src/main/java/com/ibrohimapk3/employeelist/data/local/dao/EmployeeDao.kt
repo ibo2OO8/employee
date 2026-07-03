@@ -12,10 +12,12 @@ interface EmployeeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItems(list: List<EmployeeEntity>)
 
-
     @Query("SELECT * FROM EmployeesList")
     fun getAllItem(): Flow<List<EmployeeEntity>>
 
     @Query("SELECT * FROM EmployeesList WHERE id = :id")
     fun getEmployeeById(id: String): Flow<EmployeeEntity>
+
+    @Query("DELETE FROM EmployeesList")
+    fun deleteAllData()
 }

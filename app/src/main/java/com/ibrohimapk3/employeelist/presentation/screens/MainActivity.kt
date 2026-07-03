@@ -14,9 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Column() {
-
                 val navController = rememberNavController()
-
                 AppNavGraph(navController)
             }
         }

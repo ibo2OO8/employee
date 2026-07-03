@@ -1,4 +1,5 @@
 package com.ibrohimapk3.employeelist.presentation.screens
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,10 +14,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,24 +41,27 @@ import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.presentation.model.Employee
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import org.koin.androidx.compose.getViewModel
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeList(onEmployeeListToAboutEmployee: (String) -> Unit) {
-    val viewModel: EmployeesListViewModel = getViewModel()
-    val employees by viewModel.listOfEmployee.collectAsState()
-    ListOfEmployee(employees, onEmployeeListToAboutEmployee)
+    ListOfEmployee(onEmployeeListToAboutEmployee)
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ListOfEmployee(
-    listOfEmployee: List<Employee>,
     onEmployeeListToAboutEmployee: (String) -> Unit
 ) {
+    val context = LocalContext.current
+    val viewModel: EmployeesListViewModel = getViewModel()
+    val listOfEmployee by viewModel.listOfEmployee.collectAsState()
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val pullRefreshState = rememberPullToRefreshState()
     var searchText by remember { mutableStateOf("") }
-
     val filteredList = listOfEmployee.filter {
         it.firstName.contains(searchText, ignoreCase = true)
     }
     Column() {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,49 +108,72 @@ private fun ListOfEmployee(
                 ),
             )
         }
-
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(filteredList) {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 7.dp)
-                        .fillMaxWidth()
-                        .padding(horizontal = 7.dp, vertical = 10.dp)
-                        .shadow(10.dp, RoundedCornerShape(8.dp))
-                        .background(Color(0xFFFFFFFF))
-                        .clickable {
-                            onEmployeeListToAboutEmployee(it.id)
-                        },
+        PullToRefreshBox(
+            state = pullRefreshState,
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                viewModel.refresh()
+                // Toast.makeText(context, "подключите к интернету", Toast.LENGTH_SHORT).show()
+            },
+            indicator = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(modifier = Modifier.size(120.dp), contentAlignment = Alignment.Center) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .size(90.dp)
-                                .clip(RoundedCornerShape(50.dp)),
-                            model = it.image,
-                            contentDescription = "photo",
-
-                            )
-                    }
-                    Column(
+                    PullToRefreshDefaults.Indicator(
+                        state = pullRefreshState,
+                        isRefreshing = isRefreshing,
+                        color = Color(0xFF70B4EC)
+                    )
+                }
+            }
+        ) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(filteredList) {
+                    Row(
                         modifier = Modifier
+                            .padding(horizontal = 7.dp)
                             .fillMaxWidth()
-                            .padding(10.dp),
-                        verticalArrangement = Arrangement.Center,
+                            .padding(horizontal = 7.dp, vertical = 10.dp)
+                            .shadow(10.dp, RoundedCornerShape(8.dp))
+                            .background(Color(0xFFFFFFFF))
+                            .clickable {
+                                onEmployeeListToAboutEmployee(it.id)
+                            },
                     ) {
-                        Text(
-                            fontSize = 22.sp,
-                            color = Color.Black,
-                            text = it.firstName,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            fontSize = 20.sp,
-                            color = Color.Blue,
-                            text = it.department,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
-                        Text(fontSize = 19.sp, color = Color.Blue, text = it.position)
+                        Box(
+                            modifier = Modifier.size(120.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AsyncImage(
+                                modifier = Modifier
+                                    .size(90.dp)
+                                    .clip(RoundedCornerShape(50.dp)),
+                                model = it.image,
+                                contentDescription = "photo",
+                            )
+
+                        }
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                             verticalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                fontSize = 22.sp,
+                                color = Color.Black,
+                                text = it.firstName,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                fontSize = 20.sp,
+                                color = Color.Blue,
+                                text = it.department,
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            )
+                            Text(fontSize = 19.sp, color = Color.Blue, text = it.position)
+                        }
                     }
                 }
             }

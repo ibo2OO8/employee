@@ -38,7 +38,7 @@ var appModule = module {
         RefreshUseCase(get())
     }
     viewModel {
-        EmployeesListViewModel(get())
+        EmployeesListViewModel(get() , get())
     }
     viewModel {
         AboutEmployeeViewModel(get())

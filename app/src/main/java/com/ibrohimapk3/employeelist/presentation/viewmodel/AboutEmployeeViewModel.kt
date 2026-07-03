@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 class AboutEmployeeViewModel(
     private val getAboutEmployeeUseCase: GetAboutEmployeeUseCase
 ) : ViewModel() {
-
     private val _employee = MutableStateFlow(Employee("", "", "", "", "", "", "", ""))
     val employee = _employee.asStateFlow()
 
