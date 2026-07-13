@@ -1,9 +1,13 @@
 package com.ibrohimapk3.employeelist.data.mapper
+
 import com.ibrohimapk3.employeelist.data.local.entity.EmployeeEntity
 import com.ibrohimapk3.employeelist.data.remote.EmployeesDto
-import com.ibrohimapk3.employeelist.domain.entety.EmployeeDomain
-fun EmployeeEntity.toEmployee(): EmployeeDomain {
-    return EmployeeDomain(
+import com.ibrohimapk3.employeelist.presentation.model.Employee
+
+private val departmentL = listOf("IT", "Finance", "Sales", "Hr")
+private val positionL = listOf("Manager", "Backend", "Frontend", "android developer")
+fun EmployeeEntity.toEmployee(): Employee {
+    return Employee(
         id = this.id,
         firstName = this.firstName.toString(),
         lastName = this.lastName.toString(),
@@ -26,5 +30,3 @@ fun EmployeesDto.toEmployeeEntity(): EmployeeEntity {
         image = picture.large
     )
 }
-var departmentL = listOf("IT", "Finance", "Sales", "Hr")
-var positionL = listOf("Manager", "Backend", "Frontend", "android developer")

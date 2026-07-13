@@ -1,6 +1,7 @@
-package com.ibrohimapk3.employeelist.di
+package com.ibrohimapk3.employeelist.app
 
 import android.app.Application
+import com.ibrohimapk3.employeelist.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.ibrohimapk3.employeelist.domain.usecase.GetEmployeeUseCase
 import com.ibrohimapk3.employeelist.domain.usecase.RefreshUseCase
 import com.ibrohimapk3.employeelist.presentation.model.Employee
-import com.ibrohimapk3.employeelist.presentation.mapper.toEmployee
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,9 +19,13 @@ class EmployeesListViewModel(
     val listOfEmployee = _listOfEmployee.asStateFlow()
 
     init {
+        loadData()
+    }
+
+    fun loadData() {
         viewModelScope.launch {
             getEmployeeUseCase.invoke().collect { list ->
-                _listOfEmployee.value = list.map { it.toEmployee() }
+                _listOfEmployee.value = list.map { it }
             }
         }
     }

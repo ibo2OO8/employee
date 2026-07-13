@@ -1,15 +1,13 @@
 package com.ibrohimapk3.employeelist.domain.usecase
 
-import android.util.Log
-import com.ibrohimapk3.employeelist.domain.entety.EmployeeDomain
 import com.ibrohimapk3.employeelist.domain.repository.EmployeeRepository
+import com.ibrohimapk3.employeelist.presentation.model.Employee
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEach
 
 class GetEmployeeUseCase(
     private val employeeRepository: EmployeeRepository
 ) {
-    operator fun invoke(): Flow<List<EmployeeDomain>> {
+    operator fun invoke(): Flow<List<Employee>> {
         return employeeRepository.getEmployees()
     }
 }

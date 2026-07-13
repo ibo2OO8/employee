@@ -19,5 +19,5 @@ interface EmployeeDao {
     fun getEmployeeById(id: String): Flow<EmployeeEntity>
 
     @Query("DELETE FROM EmployeesList")
-    fun deleteAllData()
+    suspend fun deleteAllData()
 }

@@ -33,27 +33,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.ibrohimapk3.employeelist.presentation.model.Employee
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
+import com.ibrohimapk3.employeelist.ui.theme.TopBarColor
 import org.koin.androidx.compose.getViewModel
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EmployeeList(onEmployeeListToAboutEmployee: (String) -> Unit) {
-    ListOfEmployee(onEmployeeListToAboutEmployee)
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ListOfEmployee(
-    onEmployeeListToAboutEmployee: (String) -> Unit
+fun ListOfEmployee(
+    onEmployeeListToAboutEmployee: (String) -> Unit,
+    viewModel: EmployeesListViewModel = getViewModel(),
+    modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val viewModel: EmployeesListViewModel = getViewModel()
     val listOfEmployee by viewModel.listOfEmployee.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
@@ -61,7 +55,7 @@ private fun ListOfEmployee(
     val filteredList = listOfEmployee.filter {
         it.firstName.contains(searchText, ignoreCase = true)
     }
-    Column() {
+    Column(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,12 +65,12 @@ private fun ListOfEmployee(
                         bottomEnd = 20.dp
                     )
                 )
-                .background(Color(0xFF70B4EC))
+                .background(TopBarColor)
                 .padding(10.dp)
         ) {
             Text(
                 modifier = Modifier.padding(
-                    top = 30.dp,
+                    top = 15.dp,
                     bottom = 20.dp,
                     start = 20.dp,
                     end = 20.dp
@@ -123,7 +117,7 @@ private fun ListOfEmployee(
                     PullToRefreshDefaults.Indicator(
                         state = pullRefreshState,
                         isRefreshing = isRefreshing,
-                        color = Color(0xFF70B4EC)
+                        color = TopBarColor
                     )
                 }
             }
@@ -136,7 +130,7 @@ private fun ListOfEmployee(
                             .fillMaxWidth()
                             .padding(horizontal = 7.dp, vertical = 10.dp)
                             .shadow(10.dp, RoundedCornerShape(8.dp))
-                            .background(Color(0xFFFFFFFF))
+                            .background(Color.White)
                             .clickable {
                                 onEmployeeListToAboutEmployee(it.id)
                             },
@@ -158,7 +152,7 @@ private fun ListOfEmployee(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                             verticalArrangement = Arrangement.Center,
+                            verticalArrangement = Arrangement.Center,
                         ) {
                             Text(
                                 fontSize = 22.sp,

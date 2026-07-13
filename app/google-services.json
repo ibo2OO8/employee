@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "237993612656",
+    "project_id": "employeelist-17c5f",
+    "storage_bucket": "employeelist-17c5f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237993612656:android:413439743e4e7f7a4a6bb5",
+        "android_client_info": {
+          "package_name": "com.ibrohimapk3.employeelist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMnI18fzJVFY8C3VJLP0JPoOxpjogkFhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
