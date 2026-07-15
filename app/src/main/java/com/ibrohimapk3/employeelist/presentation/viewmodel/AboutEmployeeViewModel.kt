@@ -1,9 +1,9 @@
 package com.ibrohimapk3.employeelist.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ibrohimapk3.employeelist.domain.usecase.GetAboutEmployeeUseCase
+import com.ibrohimapk3.employeelist.data.repositoryImpl.AuthRepositoryImpl
+import com.ibrohimapk3.employeelist.domain.usecase.employee.GetAboutEmployeeUseCase
 import com.ibrohimapk3.employeelist.presentation.model.Employee
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,5 +20,10 @@ class AboutEmployeeViewModel(
             val result = getAboutEmployeeUseCase.invoke(id)
             _employee.value = result
         }
+    }
+    init {
+
+       AuthRepositoryImpl().isLogged()
+
     }
 }

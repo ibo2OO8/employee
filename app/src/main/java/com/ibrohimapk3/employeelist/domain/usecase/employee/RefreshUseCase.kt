@@ -1,4 +1,4 @@
-package com.ibrohimapk3.employeelist.domain.usecase
+package com.ibrohimapk3.employeelist.domain.usecase.employee
 
 import com.ibrohimapk3.employeelist.domain.repository.EmployeeRepository
 

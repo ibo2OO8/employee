@@ -1,4 +1,4 @@
-package com.ibrohimapk3.employeelist.ui.theme
+package com.ibrohimapk3.employeelist.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -10,6 +10,6 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val TopBarColor = Color(0xFF70B4EC)
+val SkyColor = Color(0xFF70B4EC)
 
 val ImgBorderColor = Color(0xFFD7D6D6)

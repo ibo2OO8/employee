@@ -1,11 +1,13 @@
 package com.ibrohimapk3.employeelist.presentation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,9 +15,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -23,6 +28,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,12 +39,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
-import com.ibrohimapk3.employeelist.ui.theme.TopBarColor
+import com.ibrohimapk3.employeelist.presentation.theme.SkyColor
+import com.ibrohimapk3.employeelist.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,39 +54,60 @@ import org.koin.androidx.compose.getViewModel
 fun ListOfEmployee(
     onEmployeeListToAboutEmployee: (String) -> Unit,
     viewModel: EmployeesListViewModel = getViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEmployeeListToAboutAuth: () -> Unit,
+    viewModelAuth: LoginViewModel = getViewModel()
 ) {
+    val context = LocalContext.current
     val listOfEmployee by viewModel.listOfEmployee.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
     var searchText by remember { mutableStateOf("") }
+    var enabled by remember { mutableStateOf(true) }
     val filteredList = listOfEmployee.filter {
         it.firstName.contains(searchText, ignoreCase = true)
     }
-    Column(modifier = modifier) {
+
+    Column(modifier = modifier.background(Color.White)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(
                     RoundedCornerShape(
-                        bottomStart = 20.dp,
-                        bottomEnd = 20.dp
+                        bottomStart = 20.dp, bottomEnd = 20.dp
                     )
                 )
-                .background(TopBarColor)
+                .background(SkyColor)
                 .padding(10.dp)
         ) {
-            Text(
-                modifier = Modifier.padding(
-                    top = 15.dp,
-                    bottom = 20.dp,
-                    start = 20.dp,
-                    end = 20.dp
-                ),
-                color = Color.White,
-                fontSize = 28.sp,
-                text = "Сотрудники"
-            )
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            top = 15.dp,
+                            bottom = 20.dp,
+                            start = 20.dp,
+                            end = 20.dp,
+                        )
+                        .weight(1F), color = Color.White, fontSize = 28.sp, text = "Сотрудники"
+                )
+                IconButton(
+                    onClick = {
+                        enabled = false
+                        viewModelAuth.logOut()
+                        onEmployeeListToAboutAuth()
+
+                    }, enabled = enabled, modifier = Modifier
+                        .padding(end = 10.dp)
+                        .size(30.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "img",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+            }
             TextField(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -102,27 +131,28 @@ fun ListOfEmployee(
                 ),
             )
         }
-        PullToRefreshBox(
-            state = pullRefreshState,
-            isRefreshing = isRefreshing,
-            onRefresh = {
-                viewModel.refresh()
-                // Toast.makeText(context, "подключите к интернету", Toast.LENGTH_SHORT).show()
-            },
-            indicator = {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    PullToRefreshDefaults.Indicator(
-                        state = pullRefreshState,
-                        isRefreshing = isRefreshing,
-                        color = TopBarColor
-                    )
-                }
+        LaunchedEffect(Unit) {
+            viewModel.error.collect {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
-        ) {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        }
+        PullToRefreshBox(state = pullRefreshState, isRefreshing = isRefreshing, onRefresh = {
+            viewModel.refresh()
+
+        }, indicator = {
+            Box(
+                modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
+            ) {
+                PullToRefreshDefaults.Indicator(
+                    state = pullRefreshState, isRefreshing = isRefreshing, color = SkyColor
+                )
+            }
+        }) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
                 items(filteredList) {
                     Row(
                         modifier = Modifier
@@ -136,8 +166,7 @@ fun ListOfEmployee(
                             },
                     ) {
                         Box(
-                            modifier = Modifier.size(120.dp),
-                            contentAlignment = Alignment.Center
+                            modifier = Modifier.size(120.dp), contentAlignment = Alignment.Center
                         ) {
                             AsyncImage(
                                 modifier = Modifier

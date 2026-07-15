@@ -38,8 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.presentation.viewmodel.AboutEmployeeViewModel
-import com.ibrohimapk3.employeelist.ui.theme.ImgBorderColor
-import com.ibrohimapk3.employeelist.ui.theme.TopBarColor
+import com.ibrohimapk3.employeelist.presentation.theme.ImgBorderColor
+import com.ibrohimapk3.employeelist.presentation.theme.SkyColor
+import com.ibrohimapk3.employeelist.presentation.viewmodel.LoginViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -47,12 +48,13 @@ fun AboutEmployee(
     navController: NavHostController,
     id: String,
     viewModel: AboutEmployeeViewModel = getViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val employee by viewModel.employee.collectAsState()
     LaunchedEffect(id) {
         viewModel.loadEmployee(id)
     }
+
     Column(modifier = modifier.background(Color.White)) {
         TopBar(navController)
         Column(
@@ -89,7 +91,7 @@ fun AboutEmployee(
                         .size(35.dp)
                         .align(Alignment.CenterVertically),
                     imageVector = Icons.Default.Badge,
-                    tint = TopBarColor,
+                    tint = SkyColor,
                     contentDescription = "icon",
                 )
                 Column(
@@ -103,7 +105,9 @@ fun AboutEmployee(
             }
             //
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth().padding(start = 22.dp, end = 22.dp, top = 3.dp , bottom = 3.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 22.dp, end = 22.dp, top = 3.dp, bottom = 3.dp),
                 thickness = 2.dp,
                 color = Color.Gray
             )
@@ -117,7 +121,7 @@ fun AboutEmployee(
                         .size(35.dp)
                         .align(Alignment.CenterVertically),
                     imageVector = Icons.Default.Business,
-                    tint = TopBarColor,
+                    tint = SkyColor,
                     contentDescription = "icon",
                 )
                 Column(
@@ -131,7 +135,9 @@ fun AboutEmployee(
             }
             //
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth().padding(start = 22.dp, end = 22.dp, top = 3.dp , bottom = 3.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 22.dp, end = 22.dp, top = 3.dp, bottom = 3.dp),
                 thickness = 2.dp,
                 color = Color.Gray
             )
@@ -145,7 +151,7 @@ fun AboutEmployee(
                         .size(35.dp)
                         .align(Alignment.CenterVertically),
                     imageVector = Icons.Default.Email,
-                    tint = TopBarColor,
+                    tint = SkyColor,
                     contentDescription = "icon",
                 )
                 Column(
@@ -158,7 +164,9 @@ fun AboutEmployee(
                 }
             }
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth().padding(start = 22.dp, end = 22.dp, top = 3.dp , bottom = 3.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 22.dp, end = 22.dp, top = 3.dp, bottom = 3.dp),
                 thickness = 2.dp,
                 color = Color.Gray
             )
@@ -173,7 +181,7 @@ fun AboutEmployee(
                         .size(35.dp)
                         .align(Alignment.CenterVertically),
                     imageVector = Icons.Default.Phone,
-                    tint = TopBarColor,
+                    tint = SkyColor,
                     contentDescription = "icon",
                 )
                 Column(
@@ -189,45 +197,33 @@ fun AboutEmployee(
         }
     }
 }
-
 @Composable
 private fun TopBar(navController: NavHostController) {
     var enabled by remember { mutableStateOf(true) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(TopBarColor)
+            .background(SkyColor)
             .padding(top = 20.dp, start = 10.dp, end = 10.dp, bottom = 10.dp)
     ) {
         IconButton(
             onClick = {
                 enabled = false
                 navController.popBackStack()
-
-            },
-            enabled = enabled,
-            modifier = Modifier
+            }, enabled = enabled, modifier = Modifier
                 .padding(top = 30.dp, start = 7.dp)
                 .size(40.dp)
-
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "img",
-                modifier = Modifier
-                    .size(40.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
         Text(
             modifier = Modifier.padding(
-                top = 30.dp,
-                bottom = 20.dp,
-                start = 20.dp,
-                end = 20.dp
-            ),
-            color = Color.White,
-            fontSize = 28.sp,
-            text = "Профил сотрудника"
+                top = 30.dp, bottom = 20.dp, start = 20.dp, end = 20.dp
+            ), color = Color.White, fontSize = 28.sp, text = "Профил сотрудника"
         )
     }
 }
