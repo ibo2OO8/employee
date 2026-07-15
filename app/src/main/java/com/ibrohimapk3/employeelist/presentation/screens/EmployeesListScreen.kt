@@ -18,10 +18,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -47,6 +49,7 @@ import coil.compose.AsyncImage
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import com.ibrohimapk3.employeelist.presentation.theme.SkyColor
 import com.ibrohimapk3.employeelist.presentation.viewmodel.LoginViewModel
+import com.ibrohimapk3.employeelist.presentation.viewmodel.ShowDialogViewModel
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,14 +59,15 @@ fun ListOfEmployee(
     viewModel: EmployeesListViewModel = getViewModel(),
     modifier: Modifier = Modifier,
     onEmployeeListToAboutAuth: () -> Unit,
-    viewModelAuth: LoginViewModel = getViewModel()
+    viewModelAuth: LoginViewModel = getViewModel(),
+    viewModelShowDialog: ShowDialogViewModel = getViewModel()
 ) {
     val context = LocalContext.current
     val listOfEmployee by viewModel.listOfEmployee.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullToRefreshState()
     var searchText by remember { mutableStateOf("") }
-    var enabled by remember { mutableStateOf(true) }
+    val showDialog = viewModelShowDialog.showDialog.collectAsState()
     val filteredList = listOfEmployee.filter {
         it.firstName.contains(searchText, ignoreCase = true)
     }
@@ -93,11 +97,8 @@ fun ListOfEmployee(
                 )
                 IconButton(
                     onClick = {
-                        enabled = false
-                        viewModelAuth.logOut()
-                        onEmployeeListToAboutAuth()
-
-                    }, enabled = enabled, modifier = Modifier
+                        viewModelShowDialog.openDialog()
+                    }, modifier = Modifier
                         .padding(end = 10.dp)
                         .size(30.dp)
                 ) {
@@ -115,6 +116,7 @@ fun ListOfEmployee(
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
                 value = searchText,
+                maxLines = 1,
                 placeholder = {
                     Text(text = "Поиск сотрудника...")
                 },
@@ -130,6 +132,9 @@ fun ListOfEmployee(
                     disabledIndicatorColor = Color.Transparent
                 ),
             )
+        }
+        if (showDialog.value) {
+            ShowDialog(viewModelShowDialog, onEmployeeListToAboutAuth)
         }
         LaunchedEffect(Unit) {
             viewModel.error.collect {
@@ -202,4 +207,35 @@ fun ListOfEmployee(
             }
         }
     }
+}
+
+@Composable
+fun ShowDialog(
+    viewModel: ShowDialogViewModel = getViewModel(),
+    onEmployeeListToAboutAuth: () -> Unit
+) {
+
+    AlertDialog(
+        containerColor = Color.White,
+        onDismissRequest = { },
+        title = { Text("Подтверждение") },
+        text = { Text("Перейти на следующий экран?") },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    viewModel.closeDialog()
+                    onEmployeeListToAboutAuth()
+                }
+            ) {
+                Text("Да", color = SkyColor)
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = { viewModel.closeDialog() }
+            ) {
+                Text("Нет", color = SkyColor)
+            }
+        }
+    )
 }

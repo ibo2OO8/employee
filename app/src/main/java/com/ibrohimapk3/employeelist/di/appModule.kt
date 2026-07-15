@@ -17,10 +17,10 @@ import com.ibrohimapk3.employeelist.presentation.viewmodel.AboutEmployeeViewMode
 import com.ibrohimapk3.employeelist.presentation.viewmodel.EmployeesListViewModel
 import com.ibrohimapk3.employeelist.presentation.viewmodel.IsLoggedViewModel
 import com.ibrohimapk3.employeelist.presentation.viewmodel.LoginViewModel
+import com.ibrohimapk3.employeelist.presentation.viewmodel.ShowDialogViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-
 
 var appModule = module {
     single { RetrofitInstance.api }
@@ -68,5 +68,8 @@ var appModule = module {
     }
     viewModel {
         AboutEmployeeViewModel(get())
+    }
+    viewModel {
+        ShowDialogViewModel()
     }
 }

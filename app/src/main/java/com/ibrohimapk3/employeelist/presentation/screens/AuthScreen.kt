@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,9 +51,10 @@ fun AuthScreen(
     var passwordText by remember { mutableStateOf("") }
     val isLoading by viewModel.isLoading.collectAsState()
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
+            .imePadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -71,6 +73,7 @@ fun AuthScreen(
                 .border(1.dp, color = Color.Black, shape = RoundedCornerShape(20.dp)),
             shape = RoundedCornerShape(20.dp),
             value = emailText,
+            maxLines = 1,
             placeholder = {
                 Text(text = "Электронная почта")
             },
@@ -97,6 +100,7 @@ fun AuthScreen(
             placeholder = {
                 Text(text = "Пароль")
             },
+            maxLines = 1,
             onValueChange = { passwordText = it },
             leadingIcon = {
                 Icon(Icons.Default.Password, contentDescription = "email", tint = SkyColor)

@@ -33,7 +33,9 @@ fun AppNavGraph(
                     navController.navigate("aboutEmployee/$id")
                 },
                 onEmployeeListToAboutAuth = {
-                    navController.navigate("authScreen")
+                    navController.navigate("authScreen"){
+                        popUpTo("employeeList") { inclusive = true }
+                    }
                 },
                 modifier = modifier
             )
@@ -51,7 +53,9 @@ fun AppNavGraph(
         }
         composable("authScreen") {
             AuthScreen(modifier, onAuthToListOfEmployee = {
-                navController.navigate("employeeList")
+                navController.navigate("employeeList"){
+                    popUpTo("authScreen") { inclusive = true }
+                }
             })
         }
     }
