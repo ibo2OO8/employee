@@ -211,7 +211,7 @@ private fun TopBar(navController: NavHostController) {
                 enabled = false
                 navController.popBackStack()
             }, enabled = enabled, modifier = Modifier
-                .padding(top = 30.dp, start = 7.dp)
+                .padding(top = 17.dp, start = 7.dp)
                 .size(40.dp)
         ) {
             Icon(
@@ -222,8 +222,9 @@ private fun TopBar(navController: NavHostController) {
         }
         Text(
             modifier = Modifier.padding(
-                top = 30.dp, bottom = 20.dp, start = 20.dp, end = 20.dp
-            ), color = Color.White, fontSize = 28.sp, text = "Профил сотрудника"
+                top = 17.dp, bottom = 20.dp, start = 20.dp, end = 20.dp
+            ), maxLines = 1
+            , color = Color.White, fontSize = 26.sp, text = "Профил сотрудника"
         )
     }
 }

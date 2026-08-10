@@ -12,9 +12,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.ibrohimapk3.employeelist.presentation.navigation.AppNavGraph
-import com.ibrohimapk3.employeelist.presentation.screens.AuthScreen
+
 import com.ibrohimapk3.employeelist.presentation.theme.SkyColor
 
 class MainActivity : ComponentActivity() {
@@ -22,6 +23,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         window.statusBarColor = SkyColor.toArgb()
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightStatusBars = true
         setContent {
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 Column() {
